@@ -42,4 +42,5 @@ DO_POST_LOAD_DATA = function () {
     SHOWINFO(true);
 };
 
+
 VALPAGJS = valpagJson;
