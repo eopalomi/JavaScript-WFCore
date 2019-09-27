@@ -10,7 +10,10 @@ var paramFormaPago   = COALESCE(LS_CONPAR.co_conpar_7, 3);
 var paramBancoCargo  = COALESCE(LS_CONPAR.co_conpar_8, null);
 var paramNroCtaCargo = COALESCE(LS_CONPAR.co_conpar_9, null);
 var paramMedioPago   = COALESCE(LS_CONPAR.co_conpar_10,4);
-
+//print('paramFormaPago:'+paramFormaPago);,--Eliminar esta linea
+MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', 'paramFormaPago: '+paramFormaPago, CO_CONTEN, true);
+return OK2({no_action:'NONE'});
+//Solo esta para probar el funcionmiento
 arrayEntregas   = [];
 arrayDetalleTXT = [];
 jsonCabeceraTXT = {};
