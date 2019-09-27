@@ -102,8 +102,3 @@ switch(CO_PAGREG) {
 
 valpagJson.add(row);
 return valpagJson;
-/*ESTO ES UN SALUDO */
-/*ESTO ES UN SEGUNDO SALUDO */
-/*TERCER SALUDO */
-/*CUARTO SALUDO */
-/*ULTIMO SALUDO*/
