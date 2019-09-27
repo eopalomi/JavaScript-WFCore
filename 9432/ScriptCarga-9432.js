@@ -31,7 +31,7 @@ var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 30);
 var valpagJson = new ValpagJson();
 
 for each (var rs in v_va_resqry.result){
-    switch(rs.id_blopag){
+	switch(rs.id_blopag){
         case null:{
             var v_ti_estglo ="E";
             var v_ti_estreg ="E";
@@ -39,14 +39,14 @@ for each (var rs in v_va_resqry.result){
             break;
         } 
         default: {
-            var v_ti_estglo ="L";
+			var v_ti_estglo ="L";
             var v_ti_estreg ="L";
             var url = '<a href="../wf?co_conten=8188&co_conpar_1=' + hoy + '&co_conpar_2=' + rs.id_blopag + '" target=_parent><b>' + 'B' +(StringUtils.leftPad(rs.id_blopag, 5,'0')) + '</b></a>';
             break; 
         }
     };
 
-    var rowx = new Row();
+	var rowx = new Row();
     rowx.addReg(new Reg({co_pagreg:   10, va_pagreg: null}));
     rowx.addReg(new Reg({co_pagreg:   20, va_pagreg: rs.co_entdet}));
     rowx.addReg(new Reg({co_pagreg:   25, va_pagreg: rs.co_entren}));
@@ -73,12 +73,12 @@ for each (var rs in v_va_resqry.result){
     
     v_ti_estreg = v_ti_estreg == 'L'?true:false; // NO BORRAR
     rowx.cfg([{'ti_object': 'button','co_object':2, 'disabled':v_ti_estreg}]);
-    valpagJson.addRow(rowx);
+	valpagJson.addRow(rowx);
 }
 
 DO_POST_LOAD_DATA = function () {
     SHOWINFO(true);
     AUTODYNAMIC(true);
-}
+};
 
 return valpagJson;
