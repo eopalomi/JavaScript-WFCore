@@ -17,6 +17,7 @@ var p_co_medpag = COALESCE(LS_CONPAR.co_conpar_10, 4);
 var v_tx_query = 
     "SELECT * FROM pagos.pblistar_entregas_rendir(" + p_id_bancos + ") " +
     "where co_estpag = 1 " +
+    "and id_blopag is null " +
     "and (case "+
             "when '"+ p_co_filtro +"' = '4' then fe_movimi >= '" + p_fe_inicio + "' and fe_movimi <= '" + p_fe_finale + "' "+
             "when '"+ p_co_filtro +"' = '5' then fe_regsma >= '" + p_fe_inicio + "' and fe_regsma <= '" + p_fe_finale + "' "+

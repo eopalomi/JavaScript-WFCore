@@ -49,14 +49,12 @@ if (CO_PAGBOT == 1){
             objTxtBCP["nombreBeneficiario"]     = regNombrePersona;
             objTxtBCP["referenciaBeneficiario"] = "";
             objTxtBCP["referenciaEmpresas"]     = "";
-            
             objTxtBCP["numeroComprobante"]      = "";
             objTxtBCP["fechaEmision"]           = hoy;
             objTxtBCP["importeAbonar"]          = regImporteAbonar;
             objTxtBCP["correoBeneficiario"]     = "";
             objTxtBCP["numeroCCIAbono"]         = "";
             objTxtBCP["fechaVencimiento"]       = "";
-            
             objTxtBCP["tipoDocIdentidad"]       = "L";
             objTxtBCP["tipoComprobante"]        = "";
             
@@ -64,14 +62,15 @@ if (CO_PAGBOT == 1){
 
             var objEntregas = new Object();
             objEntregas["codigoEntDetalle"] = regCodigoEntDeta;
-            objEntregas["detalleGlosa"] = regDescripGlosa;
+            objEntregas["detalleGlosa"]     = regDescripGlosa;
             arrayEntregas.push(objEntregas);
         }
     }
+
     var v_no_ctaqry = DATA.SQL('wfacr', "select id_ctaban, no_ctaban, id_tipmon from pagos.tcctaban where id_ctaban = " + paramNroCtaCargo, 5).result[0];
     var v_no_ctaban = v_no_ctaqry.no_ctaban;
     v_no_ctaban = v_no_ctaban.replace(/-/g, "");
-        
+    
     jsonCabeceraTXT["numeroCtaBanCargo"] = v_no_ctaban;
     jsonCabeceraTXT["monedaCtaBanCargo"] = v_no_ctaqry.id_tipmon;
     jsonCabeceraTXT["codigoCtaBanCargo"] = v_no_ctaqry.id_ctaban;
