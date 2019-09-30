@@ -1,14 +1,14 @@
 // VARIABLES
 var fecha = new Date();
 var diaUno = '1/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
-var diahoy = fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
+var hoy = fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
 
 /*PARAMETROS*/
 var p_co_bancos = COALESCE(LS_CONPAR.co_conpar_1,'');
 var p_co_moneda = COALESCE(LS_CONPAR.co_conpar_2,'');
 var p_co_filtro = COALESCE(LS_CONPAR.co_conpar_3,'');
 var p_fe_inicio = COALESCE(LS_CONPAR.co_conpar_4,diaUno);
-var p_fe_finale = COALESCE(LS_CONPAR.co_conpar_5,diahoy);
+var p_fe_finale = COALESCE(LS_CONPAR.co_conpar_5,hoy);
 var p_da_busque = COALESCE(LS_CONPAR.co_conpar_6,'');
 var p_id_forpag = COALESCE(LS_CONPAR.co_conpar_7,'');
 var p_co_banacc = COALESCE(LS_CONPAR.co_conpar_8,'');

@@ -1,7 +1,7 @@
 // VARIABLES
 var fecha = new Date();
 var diaUno = '1/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
-var hoy = fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
+var diaHoy = fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
 
 // REGISTROS
 var r_co_bancos = NULLIF(LS_REGIST.co_regist_10,''); // Banco
