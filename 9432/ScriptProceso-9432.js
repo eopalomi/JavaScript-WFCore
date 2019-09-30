@@ -6,30 +6,27 @@ var yyyy = hoy.getFullYear();
 hoy = dd+'-'+mm+'-'+yyyy;
 
 // PARAMETROS
+var paramBancoCargo  = COALESCE(LS_CONPAR.co_conpar_1, null);
 var paramFormaPago   = COALESCE(LS_CONPAR.co_conpar_7, 3);
-var paramBancoCargo  = COALESCE(LS_CONPAR.co_conpar_8, null);
 var paramNroCtaCargo = COALESCE(LS_CONPAR.co_conpar_9, null);
 var paramMedioPago   = COALESCE(LS_CONPAR.co_conpar_10,4);
-//print('paramFormaPago:'+paramFormaPago);,--Eliminar esta linea
-MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', 'paramFormaPago: '+paramFormaPago, CO_CONTEN, true);
-return OK2({no_action:'NONE'});
-//Solo esta para probar el funcionmiento
+
 arrayEntregas   = [];
 arrayDetalleTXT = [];
 jsonCabeceraTXT = {};
-MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', 'DATO: '+paramNroCtaCargo, CO_CONTEN, true);
+
 if (CO_PAGBOT == 1){
     for each(var row in LS_ALLREG){
-        if (row.co_regist_250 == true) {                          // ¿Esta Seleccionado?
-            var regCodigoEntDeta  = NULLIF(row.co_regist_20, ''); // Código de Entrega a Rendir Detalle
-            var regCodigoEntrega  = NULLIF(row.co_regist_25, ''); // Código de Entrega a Rendir
-            var regNumeroEntrega  = NULLIF(row.co_regist_30, ''); // Numero de Entrega a rendir
+        if (row.co_regist_250 == true) {                                 // ¿Esta Seleccionado?
+            var regCodigoEntDeta = NULLIF(row.co_regist_20, '');         // Código de Entrega a Rendir Detalle
+            var regCodigoEntrega = NULLIF(row.co_regist_25, '');         // Código de Entrega a Rendir
+            var regNumeroEntrega = NULLIF(row.co_regist_30, '');         // Numero de Entrega a rendir
             var regNombrePersona = DECODE(NULLIF(row.co_regist_110,'')); // Nombre de beneficiario
-            var regCodBancoAbono = NULLIF(row.co_regist_115,''); // Código de Banco a abonar
+            var regCodBancoAbono = NULLIF(row.co_regist_115,'');         // Código de Banco a abonar
             var regNomBancoAbono = DECODE(NULLIF(row.co_regist_120,'')); // Nombre de Banco a abonar
-            var regCtaBancoAbono = NULLIF(row.co_regist_130,''); // Cuenta Bancaria de Abono
-            var regImporteAbonar = NULLIF(row.co_regist_150,''); // Importe de pago
-            var regDescripGlosa = NULLIF(row.co_regist_240,''); // Glosa
+            var regCtaBancoAbono = NULLIF(row.co_regist_130,'');         // Cuenta Bancaria de Abono
+            var regImporteAbonar = NULLIF(row.co_regist_150,'');         // Importe de pago
+            var regDescripGlosa  = NULLIF(row.co_regist_240,'');         // Glosa
             
             if (paramFormaPago == null){
                 var mensajeValidacion =  "Seleccione forma de pago.";
@@ -38,7 +35,7 @@ if (CO_PAGBOT == 1){
             } else if (regDescripGlosa == null){
                 var mensajeValidacion = "Ingrese la glosa. Entrega de Rendir - N° " + regNumeroEntrega;
             } else if (paramBancoCargo != regCodBancoAbono){
-                var mensajeValidacion = "El N° de Entrega " + regNumeroEntrega + " pertenece al banco " + regNomBancoAbono + ". " + paramBancoCargo + " - "+ regCodBancoAbono;
+                var mensajeValidacion = "El N° de Entrega " + regNumeroEntrega + " pertenece al banco " + regNomBancoAbono + ". (" + paramBancoCargo + " - "+ regCodBancoAbono +")";
             };
             
             if (mensajeValidacion != null){
@@ -106,7 +103,7 @@ if (CO_PAGBOT == 1){
     });
 
     var txt = DATA.CREATE_FILE({
-        no_archiv : 'EntregasRendir', //+fecha,
+        no_archiv : 'EntregasRendir',
         no_extens : 'txt',
         ob_dindat : query001.result
     });

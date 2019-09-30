@@ -15,17 +15,16 @@ var p_co_medpag = COALESCE(LS_CONPAR.co_conpar_10, 4);
 
 /*LOGICA*/
 var v_tx_query = 
-    "SELECT * FROM pagos.pblistar_pagos(3) " +
+    "SELECT * FROM pagos.pblistar_entregas_rendir(" + p_id_bancos + ") " +
     "where co_estpag = 1 " +
     "and (case "+
             "when '"+ p_co_filtro +"' = '4' then fe_movimi >= '" + p_fe_inicio + "' and fe_movimi <= '" + p_fe_finale + "' "+
-            "when '"+ p_co_filtro +"' = '5' then fe_regsma >= '" + p_fe_inicio + "' and fe_regsma <= '"+ p_fe_finale  + "' "+
+            "when '"+ p_co_filtro +"' = '5' then fe_regsma >= '" + p_fe_inicio + "' and fe_regsma <= '" + p_fe_finale + "' "+
             "else true "+
         "end) " +
     "and ('"+ p_da_busque + "' = '' or cast(nu_entren as varchar) ilike '%' || '"+ p_da_busque +"' || '%' or nu_docide ilike '%'|| '"+ p_da_busque +"' || '%' or no_person ilike '%' || '"+ p_da_busque +"' || '%' or 'B' || lpad(cast(id_blopag as varchar), 5, '0') ilike '%' || '"+ p_da_busque +"' || '%') " + 
     "and ("+ p_id_bancos +" is null or co_bancos = "+ p_id_bancos+ ") " +
-    "and ("+ p_co_moneda +" is null or co_moneda = "+ p_co_moneda+ ")"
-;
+    "and ("+ p_co_moneda +" is null or co_moneda = "+ p_co_moneda+ ")";
 
 var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 30);
 var valpagJson = new ValpagJson();
@@ -82,5 +81,3 @@ DO_POST_LOAD_DATA = function () {
 };
 
 return valpagJson;
-
-// PRUEBA - HAY QUE ARREGLAR LOS GIST
