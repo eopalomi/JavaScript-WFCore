@@ -10,7 +10,9 @@ var p_co_filtro = COALESCE(LS_CONPAR.co_conpar_3,null);
 var p_fe_inicio = COALESCE(LS_CONPAR.co_conpar_4,diaUno);
 var p_fe_finale = COALESCE(LS_CONPAR.co_conpar_5,hoy);
 var p_da_busque = COALESCE(LS_CONPAR.co_conpar_6,'');
-var paramNroCtaCargo = COALESCE(LS_CONPAR.co_conpar_9,  9);
+var p_id_forpag = COALESCE(LS_CONPAR.co_conpar_7,'');
+var p_id_ctacar = COALESCE(LS_CONPAR.co_conpar_9,null);
+var p_id_medpag = COALESCE(LS_CONPAR.co_conpar_10,4);
 
 var valpagJson = new ValpagJson();
 var row = new Row();
@@ -40,10 +42,10 @@ switch(CO_PAGREG) {
                 var data90 = DATA.SQL('wfacr',"select id_ctaban as co_compag, va_ctaban || ' - ' || no_ctaban as no_compag from pagos.tcctaban where id_bancos = " + VA_PAGREG + " and id_tipmon = " + valreg20 + " order by va_ctaban", 1).result;
             };
 
-            row.add(new Reg({co_pagreg :  20, ti_estreg:'E', ob_dindat: data20}));  // MONEDA
-            row.add(new Reg({co_pagreg :  70, ti_estreg:'E', ob_dindat: data70}));  // FORMA DE PAGO
-            row.add(new Reg({co_pagreg :  90, ti_estreg:'E', ob_dindat: data90}));  // NUMERO DE CUENTA BANCARIA
-            row.add(new Reg({co_pagreg : 100, ti_estreg:'E', ob_dindat: data100})); // MEDIO DE PAGO
+            row.add(new Reg({co_pagreg :  20, va_pagreg: p_co_tipmon, ti_estreg:'E', ob_dindat: data20}));  // MONEDA
+            row.add(new Reg({co_pagreg :  70, va_pagreg: p_id_forpag, ti_estreg:'E', ob_dindat: data70}));  // FORMA DE PAGO
+            row.add(new Reg({co_pagreg :  90, va_pagreg: p_id_ctacar, ti_estreg:'E', ob_dindat: data90}));  // NUMERO DE CUENTA BANCARIA
+            row.add(new Reg({co_pagreg : 100, va_pagreg: p_id_medpag, ti_estreg:'E', ob_dindat: data100})); // MEDIO DE PAGO
         };
 
         // MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA',"select id_ctaban as co_compag, va_ctaban || ' - ' || no_ctaban as no_compag from pagos.tcctaban where id_bancos = " + VA_PAGREG + " and id_tipmon = " + valreg20 + " order by va_ctaban", CO_CONTEN, true);
@@ -94,7 +96,7 @@ switch(CO_PAGREG) {
         
         if ((VA_PAGREG == 3 || VA_PAGREG == 2) & valreg10 != null) { // TRANSFERENCIA | OTRAS TRANSFERENCIAS
             var data90 = DATA.SQL('wfacr',"select id_ctaban as co_compag, va_ctaban || '-' || no_ctaban as no_compag from pagos.tcctaban where id_bancos = " + valreg10 + " and id_tipmon = " + valreg20 + "  order by va_ctaban", 1).result;
-            row.add(new Reg({co_pagreg : 90, ti_estreg:'E', ob_dindat: data90})); // NUMERO DE CUENTA BANCARIA
+            row.add(new Reg({co_pagreg : 90, va_pagreg: p_id_ctacar, ti_estreg:'E', ob_dindat: data90})); // NUMERO DE CUENTA BANCARIA
         } else {
             row.add(new Reg({co_pagreg : 90, ti_estreg:'O'}));  // NUMERO DE CUENTA BANCARIA
         }

@@ -1,19 +1,19 @@
-/*HOY*/
-var hoy = new Date();
-var dd = hoy.getDate();
-var mm = hoy.getMonth()+1;
-var yyyy = hoy.getFullYear();
-hoy = dd+'-'+mm+'-'+yyyy;
-
 // PARAMETROS
 var paramBancoCargo  = COALESCE(LS_CONPAR.co_conpar_1, null);
 var paramFormaPago   = COALESCE(LS_CONPAR.co_conpar_7, 3);
 var paramNroCtaCargo = COALESCE(LS_CONPAR.co_conpar_9, null);
 var paramMedioPago   = COALESCE(LS_CONPAR.co_conpar_10,4);
 
+//VARIABLES
+var fecha = new Date();
+var diaHoy = fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
+
 arrayEntregas   = [];
 arrayDetalleTXT = [];
 jsonCabeceraTXT = {};
+
+//MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', "FP: "+ paramFormaPago, CO_CONTEN, true);
+//return OK('NONE', null, null, null);
 
 if (CO_PAGBOT == 1){
     for each(var row in LS_ALLREG){
@@ -50,7 +50,7 @@ if (CO_PAGBOT == 1){
             objTxtBCP["referenciaBeneficiario"] = "";
             objTxtBCP["referenciaEmpresas"]     = "";
             objTxtBCP["numeroComprobante"]      = "";
-            objTxtBCP["fechaEmision"]           = hoy;
+            objTxtBCP["fechaEmision"]           = diaHoy;
             objTxtBCP["importeAbonar"]          = regImporteAbonar;
             objTxtBCP["correoBeneficiario"]     = "";
             objTxtBCP["numeroCCIAbono"]         = "";
@@ -101,11 +101,13 @@ if (CO_PAGBOT == 1){
         sg_timout : 5
     });
 
-    var txt = DATA.CREATE_FILE({
-        no_archiv : 'EntregasRendir',
-        no_extens : 'txt',
-        ob_dindat : query001.result
-    });
+    if (paramFormaPago == 2 || paramFormaPago == 3) {
+        var txt = DATA.CREATE_FILE({
+            no_archiv : 'EntregasRendir',
+            no_extens : 'txt',
+            ob_dindat : query001.result
+        });
+    };
 
     var pag_to_refresh = new List();
     pag_to_refresh.add(9432);
