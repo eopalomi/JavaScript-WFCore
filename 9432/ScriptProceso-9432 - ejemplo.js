@@ -6,20 +6,15 @@ var yyyy = hoy.getFullYear();
 hoy = dd+'-'+mm+'-'+yyyy;
 
 // PARAMETROS
-var paramFormaPago   = COALESCE(LS_CONPAR.co_conpar_7, 3);
-var paramBancoCargo  = COALESCE(LS_CONPAR.co_conpar_8, null);
-var paramNroCtaCargo = COALESCE(LS_CONPAR.co_conpar_9, null);
-var paramMedioPago   = COALESCE(LS_CONPAR.co_conpar_10,4);
+var paramFormaPago   = COALESCE(LS_CONPAR.co_conpar_7,  3);
+var paramBancoCargo  = COALESCE(LS_CONPAR.co_conpar_8,  6);
+var paramNroCtaCargo = COALESCE(LS_CONPAR.co_conpar_9,  9);
+var paramMedioPago   = COALESCE(LS_CONPAR.co_conpar_10, 4);
 
-//print('paramFormaPago:'+paramFormaPago);,--Eliminar esta linea
-MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', 'paramFormaPago: '+paramFormaPago, CO_CONTEN, true);
-return OK2({no_action:'NONE'});
-
-//Solo esta para probar el funcionmiento
 arrayEntregas   = [];
 arrayDetalleTXT = [];
 jsonCabeceraTXT = {};
-MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', 'DATO: '+paramNroCtaCargo, CO_CONTEN, true);
+  
 if (CO_PAGBOT == 1){
     for each(var row in LS_ALLREG){
         if (row.co_regist_250 == true) {                          // ¿Esta Seleccionado?
@@ -36,9 +31,11 @@ if (CO_PAGBOT == 1){
             if (paramFormaPago == null){
                 var mensajeValidacion =  "Seleccione forma de pago.";
             } else if (paramNroCtaCargo == null){
-                var mensajeValidacion =  "Seleccione el banco para generar el pago.";
+                var mensajeValidacion =  "Seleccione banco de cuenta bancaria de la empresa.";
+            } else if (paramNroCtaCargo == null){
+                var mensajeValidacion = "Seleccione cuenta bancaria de la empresa.";
             } else if (regDescripGlosa == null){
-                var mensajeValidacion = "Ingrese la glosa. Entrega de Rendir - N° " + regNumeroEntrega;
+                var mensajeValidacion = "Ingrese detalle. Entrega de Rendir - N° " + regNumeroEntrega;
             } else if (paramBancoCargo != regCodBancoAbono){
                 var mensajeValidacion = "El N° de Entrega " + regNumeroEntrega + " pertenece al banco " + regNomBancoAbono + ". " + paramBancoCargo + " - "+ regCodBancoAbono;
             };

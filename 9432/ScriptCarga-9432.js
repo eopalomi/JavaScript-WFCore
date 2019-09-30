@@ -1,15 +1,14 @@
 // VARIABLES
 var fecha = new Date();
 var diaUno = '1/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
-var hoy = fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
-
+var diaHoy = fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
 
 /*PARAMETROS*/
 var p_id_bancos = COALESCE(LS_CONPAR.co_conpar_1, null);
 var p_co_moneda = COALESCE(LS_CONPAR.co_conpar_2, 1);
 var p_co_filtro = COALESCE(LS_CONPAR.co_conpar_3, '');
 var p_fe_inicio = COALESCE(LS_CONPAR.co_conpar_4, diaUno);
-var p_fe_finale = COALESCE(LS_CONPAR.co_conpar_5, hoy);
+var p_fe_finale = COALESCE(LS_CONPAR.co_conpar_5, diaHoy);
 var p_da_busque = COALESCE(LS_CONPAR.co_conpar_6, '');
 var p_co_medpag = COALESCE(LS_CONPAR.co_conpar_10, 4);
 
@@ -29,9 +28,11 @@ var v_tx_query =
 
 var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 30);
 var valpagJson = new ValpagJson();
+MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', 'DATO 001: '+ v_va_resqry.result, CO_CONTEN, true);
+//return OK2({no_action:'NONE'});
 
 for each (var rs in v_va_resqry.result){
-	switch(rs.id_blopag){
+    switch(rs.id_blopag){
         case null:{
             var v_ti_estglo ="E";
             var v_ti_estreg ="E";
@@ -39,14 +40,14 @@ for each (var rs in v_va_resqry.result){
             break;
         } 
         default: {
-			var v_ti_estglo ="L";
+            var v_ti_estglo ="L";
             var v_ti_estreg ="L";
-            var url = '<a href="../wf?co_conten=8188&co_conpar_1=' + hoy + '&co_conpar_2=' + rs.id_blopag + '" target=_parent><b>' + 'B' +(StringUtils.leftPad(rs.id_blopag, 5,'0')) + '</b></a>';
+            var url = '<a href="../wf?co_conten=8188&co_conpar_1=' + diaHoy + '&co_conpar_2=' + rs.id_blopag + '" target=_parent><b>' + 'B' +(StringUtils.leftPad(rs.id_blopag, 5,'0')) + '</b></a>';
             break; 
         }
     };
-
-	var rowx = new Row();
+    
+    var rowx = new Row();
     rowx.addReg(new Reg({co_pagreg:   10, va_pagreg: null}));
     rowx.addReg(new Reg({co_pagreg:   20, va_pagreg: rs.co_entdet}));
     rowx.addReg(new Reg({co_pagreg:   25, va_pagreg: rs.co_entren}));
@@ -73,7 +74,7 @@ for each (var rs in v_va_resqry.result){
     
     v_ti_estreg = v_ti_estreg == 'L'?true:false; // NO BORRAR
     rowx.cfg([{'ti_object': 'button','co_object':2, 'disabled':v_ti_estreg}]);
-	valpagJson.addRow(rowx);
+    valpagJson.addRow(rowx);
 }
 
 DO_POST_LOAD_DATA = function () {
