@@ -19,7 +19,7 @@ if (r_co_bancos !== null  && (r_co_moneda == null || r_co_moneda == '')){
     var mensajeError = "Ingrese fecha final.";
 }
 
-if (mensajeError !== null ) {
+if (mensajeError != null ) {
     MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA',mensajeError, CO_CONTEN, true);
     return OK('NONE', null, null, null);
 }
