@@ -30,70 +30,48 @@ if (CO_PAGBOT == 1){
             
             if (paramFormaPago == null){
                 var mensajeValidacion =  "Seleccione forma de pago.";
-            } else if (paramNroCtaCargo == null){
-                var mensajeValidacion =  "Seleccione el banco para generar el pago.";
             } else if (regDescripGlosa == null){
                 var mensajeValidacion = "Ingrese la glosa. Entrega de Rendir - N° " + regNumeroEntrega;
-            } else if (paramBancoCargo != regCodBancoAbono){
-                var mensajeValidacion = "El N° de Entrega " + regNumeroEntrega + " pertenece al banco " + regNomBancoAbono + ". (" + paramBancoCargo + " - "+ regCodBancoAbono +")";
+            } else if (paramFormaPago == 2 || paramFormaPago == 3) { // TRANSFERENCIA | OTRAS TRASNFERENCIAS
+                if (paramBancoCargo != regCodBancoAbono){
+                    var mensajeValidacion = "El N° de Entrega " + regNumeroEntrega + " pertenece al banco " + regNomBancoAbono + ". (" + paramBancoCargo + " - "+ regCodBancoAbono +")";
+                }
+                else if (paramNroCtaCargo == null){
+                    var mensajeValidacion =  "Seleccione el banco para generar el pago.";
+                }
             };
             
             if (mensajeValidacion != null){
                 MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', mensajeValidacion, CO_CONTEN, true);
                 return OK('NONE', null, null, null);
             }
-            
-            var objTxtBCP = new Object();
-            objTxtBCP["numeroCtaAbono"]         = regCtaBancoAbono;
-            objTxtBCP["numeroDocIdentidad"]     = "";
-            objTxtBCP["nombreBeneficiario"]     = regNombrePersona;
-            objTxtBCP["referenciaBeneficiario"] = "";
-            objTxtBCP["referenciaEmpresas"]     = "";
-            objTxtBCP["numeroComprobante"]      = "";
-            objTxtBCP["fechaEmision"]           = diaHoy;
-            objTxtBCP["importeAbonar"]          = regImporteAbonar;
-            objTxtBCP["correoBeneficiario"]     = "";
-            objTxtBCP["numeroCCIAbono"]         = "";
-            objTxtBCP["fechaVencimiento"]       = "";
-            objTxtBCP["tipoDocIdentidad"]       = "L";
-            objTxtBCP["tipoComprobante"]        = "";
-            
-            arrayDetalleTXT.push(objTxtBCP);
 
-            var objEntregas = new Object();
-            objEntregas["codigoEntDetalle"] = regCodigoEntDeta;
-            objEntregas["detalleGlosa"]     = regDescripGlosa;
-            arrayEntregas.push(objEntregas);
+            // BLOQUE DE PAGOS
+            var objBloquePago = new Object();
+            objBloquePago["codigoEntDetalle"] = regCodigoEntDeta;
+            objBloquePago["detalleGlosa"]     = regDescripGlosa;
+            arrayEntregas.push(objBloquePago);
+
+            if (paramFormaPago == 2 || paramFormaPago == 3){ // TRANSFERENCIA | OTRAS TRASNFERENCIAS
+                // CUERPO DEL TXT
+                var objTxtBanco = new Object();
+                objTxtBanco["numeroCtaAbono"]         = regCtaBancoAbono;
+                objTxtBanco["numeroDocIdentidad"]     = "";
+                objTxtBanco["nombreBeneficiario"]     = regNombrePersona;
+                objTxtBanco["referenciaBeneficiario"] = "";
+                objTxtBanco["referenciaEmpresas"]     = "";
+                objTxtBanco["numeroComprobante"]      = "";
+                objTxtBanco["fechaEmision"]           = diaHoy;
+                objTxtBanco["importeAbonar"]          = regImporteAbonar;
+                objTxtBanco["correoBeneficiario"]     = "";
+                objTxtBanco["numeroCCIAbono"]         = "";
+                objTxtBanco["fechaVencimiento"]       = "";
+                objTxtBanco["tipoDocIdentidad"]       = "L";
+                objTxtBanco["tipoComprobante"]        = "";
+                arrayDetalleTXT.push(objTxtBanco);
+            }
         }
     }
-
-    var v_no_ctaqry = DATA.SQL('wfacr', "select id_ctaban, no_ctaban, id_tipmon from pagos.tcctaban where id_ctaban = " + paramNroCtaCargo, 5).result[0];
-    var v_no_ctaban = v_no_ctaqry.no_ctaban;
-    v_no_ctaban = v_no_ctaban.replace(/-/g, "");
-    
-    jsonCabeceraTXT["numeroCtaBanCargo"] = v_no_ctaban;
-    jsonCabeceraTXT["monedaCtaBanCargo"] = v_no_ctaqry.id_tipmon;
-    jsonCabeceraTXT["codigoCtaBanCargo"] = v_no_ctaqry.id_ctaban;
-
-    if (paramBancoCargo == 1) { // SCOTIABANK
-        var query001 = DATA.SQL({
-            no_conexi : 'wfacr',
-            no_consul : "select * from pagos.pbgenerar_txt_scotiabank_json('" + JSON.stringify(arrayDetalleTXT) + "')",
-            sg_timout : 5
-        });
-    } else if (paramBancoCargo == 2){ // BBVA
-        var query001 = DATA.SQL({
-            no_conexi : 'wfacr',
-            no_consul : "select * from pagos.pbgenerar_txt_bbva_json('"+ JSON.stringify(jsonCabeceraTXT) + "','" + JSON.stringify(arrayDetalleTXT) + "')",
-            sg_timout : 5
-        });
-    } else if (paramBancoCargo == 3){ //BCP
-        var query001 = DATA.SQL({
-            no_conexi : 'wfacr',
-            no_consul : "select * from pagos.pbgenerar_txt_bcp_json('"+ JSON.stringify(jsonCabeceraTXT) + "','" + JSON.stringify(arrayDetalleTXT) + "')",
-            sg_timout : 5
-        });
-    };
 
     var query002 = DATA.SQL({
         no_conexi : 'wfacr',
@@ -101,21 +79,48 @@ if (CO_PAGBOT == 1){
         sg_timout : 5
     });
 
-    if (paramFormaPago == 2 || paramFormaPago == 3) {
+    var pag_to_refresh = new List();
+    pag_to_refresh.add(9432);
+
+    if (paramFormaPago == 2 || paramFormaPago == 3){ // TRANSFERENCIA | OTRAS TRASNFERENCIAS
+        var v_no_ctaqry = DATA.SQL('wfacr', "select id_ctaban, no_ctaban, id_tipmon from pagos.tcctaban where id_ctaban = " + paramNroCtaCargo, 5).result[0];
+        var v_no_ctaban = v_no_ctaqry.no_ctaban;
+        v_no_ctaban = v_no_ctaban.replace(/-/g, "");
+        
+        jsonCabeceraTXT["numeroCtaBanCargo"] = v_no_ctaban;
+        jsonCabeceraTXT["monedaCtaBanCargo"] = v_no_ctaqry.id_tipmon;
+        jsonCabeceraTXT["codigoCtaBanCargo"] = v_no_ctaqry.id_ctaban;
+
+        if (paramBancoCargo == 1) { // SCOTIABANK
+            var query001 = DATA.SQL({
+                no_conexi : 'wfacr',
+                no_consul : "select * from pagos.pbgenerar_txt_scotiabank_json('" + JSON.stringify(arrayDetalleTXT) + "')",
+                sg_timout : 5
+            });
+        } else if (paramBancoCargo == 2){ // BBVA
+            var query001 = DATA.SQL({
+                no_conexi : 'wfacr',
+                no_consul : "select * from pagos.pbgenerar_txt_bbva_json('"+ JSON.stringify(jsonCabeceraTXT) + "','" + JSON.stringify(arrayDetalleTXT) + "')",
+                sg_timout : 5
+            });
+        } else if (paramBancoCargo == 3){ //BCP
+            var query001 = DATA.SQL({
+                no_conexi : 'wfacr',
+                no_consul : "select * from pagos.pbgenerar_txt_bcp_json('"+ JSON.stringify(jsonCabeceraTXT) + "','" + JSON.stringify(arrayDetalleTXT) + "')",
+                sg_timout : 5
+            });
+        };
+
         var txt = DATA.CREATE_FILE({
             no_archiv : 'EntregasRendir',
             no_extens : 'txt',
             ob_dindat : query001.result
         });
+        
+        return OK2([{no_action:'DOWNLOAD', ur_archiv: HTTP.URL(txt)}, {no_action:'REFRESH', ls_pagina: pag_to_refresh }]);
     };
 
-    var pag_to_refresh = new List();
-    pag_to_refresh.add(9432);
-
-    return OK2([
-        {no_action:'DOWNLOAD',  ur_archiv: HTTP.URL(txt)},
-        {no_action:'REFRESH', ls_pagina: pag_to_refresh }
-    ]);
+    return OK2([{no_action:'REFRESH', ls_pagina: pag_to_refresh }]);
 } else if (CO_PAGBOT == 2){
     var regCodigoEntrega  = NULLIF(LS_REGIST.co_regist_25, ''); // Código de Entrega a rendir
     var regNumeroentrega  = NULLIF(LS_REGIST.co_regist_30, ''); // Número de Entrega a rendir
