@@ -22,7 +22,7 @@ for each(var row in LS_ALLREG){
 }
 
 //var query = "select 1 from pagos.pbactualiza_blopag_entrega('" + JSON.stringify(arrayBloquePago) + "')";
-var query = "select 1 from pagos.pbactualiza_blopag_detalle('" + JSON.stringify(arrayBloquePago) + "')";
+var query = "select 1 from pagos.pbblopag_detalle_actualizar('" + JSON.stringify(arrayBloquePago) + "')";
 var v_de_detall = DATA.SQL('wfacr', query, 10);
 
 var pag_to_refresh = new List();

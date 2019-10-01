@@ -12,18 +12,10 @@ var r_nu_ctaban = NULLIF(LS_REGIST.co_regist_50,''); // Cuenta bancaria
 var r_im_entreg = NULLIF(LS_REGIST.co_regist_60,0); // Importe
 
 if (CO_PAGBOT == 1) {
-var v_tx_query = 
-	"select "+
-         "(case when et.co_moneda = 604 then et.im_entreg else et.im_entregdol end) im_totale, et.im_entreg, et.im_entregdol "+
-      "from pagos.tbpagentreg et "+
-      "where co_estpag = 1 " +
-	  "and et.nu_entreg = " + p_nu_entreg 
-;
-var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 30).result[0];
-
 var v_tx_pagentdet = 
 	"select coalesce(sum(im_totabo), 0) im_totabo from pagos.tbpagentdet where co_entreg =  " + p_co_entreg 
 ;
+
 var v_va_pagentdet = DATA.SQL('wfacr', v_tx_pagentdet, 30).result[0];
 var v_im_totdet = v_va_pagentdet.im_totabo + r_im_entreg;
 
@@ -36,23 +28,17 @@ if (r_co_tipdoc == null){
 } else if (r_im_entreg == null || r_im_entreg.trim() == '' || r_im_entreg == 0){
     MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA','Ingrese importe.');
     return OK('NONE', null, null, null);
-/*} else if (r_im_entreg > v_va_resqry.im_totale){
-    MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA','Importe es mayor a lo permitido');
-    return OK('NONE', null, null, null);
-} else if (v_im_totdet > v_va_resqry.im_totale){
-    MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA','Suma de Importes es mayor a lo permitido');
-    return OK('NONE', null, null, null);*/
 } else {
     
     var ObjetoDestinatario = new Object();
-    	ObjetoDestinatario["codigoBanco"] = r_co_bancos;
-    	ObjetoDestinatario["numeroCtaAbono"] = r_nu_ctaban;
-    	ObjetoDestinatario["nombrePersonal"] = r_no_nombre.toUpperCase();
-    	ObjetoDestinatario["numeroDocumento"] = r_nu_docume;
-    	ObjetoDestinatario["importeAbono"] = r_im_entreg;
-	arrayDestinatario.push(ObjetoDestinatario);
+    ObjetoDestinatario["codigoBanco"] = r_co_bancos;
+    ObjetoDestinatario["numeroCtaAbono"] = r_nu_ctaban;
+    ObjetoDestinatario["nombrePersonal"] = r_no_nombre.toUpperCase();
+    ObjetoDestinatario["numeroDocumento"] = r_nu_docume;
+    ObjetoDestinatario["importeAbono"] = r_im_entreg;
+    arrayDestinatario.push(ObjetoDestinatario);
     
-    var query = "select 1 from pagos.pbactualizar_cuentas_entregas(3,'" + p_nu_entreg + "', 'A', '" + JSON.stringify(arrayDestinatario) + "')";
+    var query = "select 1 from pagos.pbbenpag_actualizar(3,'" + p_nu_entreg + "', 'A', '" + JSON.stringify(arrayDestinatario) + "')";
 	var v_de_detall = DATA.SQL('wfacr', query, 10);
 }
 

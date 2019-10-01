@@ -12,9 +12,6 @@ arrayEntregas   = [];
 arrayDetalleTXT = [];
 jsonCabeceraTXT = {};
 
-//MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', "FP: "+ paramFormaPago, CO_CONTEN, true);
-//return OK('NONE', null, null, null);
-
 if (CO_PAGBOT == 1){
     for each(var row in LS_ALLREG){
         if (row.co_regist_250 == true) {                                 // ¿Esta Seleccionado?
@@ -75,7 +72,7 @@ if (CO_PAGBOT == 1){
 
     var query002 = DATA.SQL({
         no_conexi : 'wfacr',
-        no_consul : "select * from pagos.pbgenerar_bloque_pagos('"+ JSON.stringify(arrayEntregas) + "', " + paramFormaPago +", " + paramBancoCargo + "," + paramNroCtaCargo + ", " + paramMedioPago + ", " + USUARI.co_usuari +")",
+        no_consul : "select * from pagos.pbblopag_registrar('"+ JSON.stringify(arrayEntregas) + "', " + paramFormaPago +", " + paramBancoCargo + "," + paramNroCtaCargo + ", " + paramMedioPago + ", " + USUARI.co_usuari +")",
         sg_timout : 5
     });
 

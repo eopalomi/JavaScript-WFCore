@@ -6,7 +6,7 @@ var p_co_blopag = COALESCE(LS_CONPAR.co_conpar_3,'');
 var valpagJson = new ValpagJson();
 
 var v_tx_query = 
-    "SELECT * FROM pagos.pbmovimiento_contable(" + p_co_blopag + ")"  
+    "SELECT * FROM pagos.pbmovcon_listar(" + p_co_blopag + ")"  
 ;
     MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_SUCCESS,'ALERTA',v_tx_query, CO_CONTEN, true);
 

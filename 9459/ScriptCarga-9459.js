@@ -7,7 +7,7 @@ var p_de_blopag = COALESCE(LS_CONPAR.co_conpar_3,'');
 var valpagJson = new ValpagJson();
 
 var v_tx_query =
-    "SELECT * FROM pagos.pblistar_blopag(3) " +
+    "SELECT * FROM pagos.pbblopag_listar(3) " +
     "where id_estpag = 1" +
     "and  ('" + p_de_blopag + "' = '' or ('B' || lpad(cast(id_blopag as varchar), 5, '0')) ilike '%' || '"+ p_de_blopag +"' || '%')"
 

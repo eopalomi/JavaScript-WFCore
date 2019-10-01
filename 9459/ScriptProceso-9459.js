@@ -20,7 +20,7 @@ if (CO_PAGBOT == 1 || CO_PAGBOT == 2) {
         }
     }
 
-    var query = "select 1 from pagos.pbactualiza_blopag('" + JSON.stringify(arrayBloquePago) + "', " + v_co_estpag + ")";
+    var query = "select 1 from pagos.pbblopag_actualizar('" + JSON.stringify(arrayBloquePago) + "', " + v_co_estpag + ")";
     var v_de_detall = DATA.SQL('wfacr', query, 10);
 
     MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_SUCCESS,'ALERTA','OK', CO_CONTEN, true);

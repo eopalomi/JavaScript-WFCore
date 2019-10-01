@@ -1,4 +1,3 @@
-
 //VARIABLES
 var queryDatos =    
     "SELECT " +
@@ -7,12 +6,11 @@ var queryDatos =
         "sum(CASE co_moneda WHEN 1 THEN 1 ELSE 0 END) nu_cansol, " +
         "sum(CASE co_moneda WHEN 2 THEN 1 ELSE 0 END) nu_candol, " +
         "sum(im_totabo) im_totabo " +
-    "FROM pagos.pblistar_entregas_rendir() " +
+    "FROM pagos.pbentren_listar() " +
     "WHERE co_estpag = 1 " +
     "AND id_blopag IS NULL " +
     "GROUP BY co_bancos, no_banabo ";
 
-//MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA', "FP: "+ queryDatos, CO_CONTEN, true);
 var v_va_resqry  = DATA.SQL('wfacr', queryDatos, 1);
 
 /*LOGICA*/

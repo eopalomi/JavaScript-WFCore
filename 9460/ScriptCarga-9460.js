@@ -1,39 +1,16 @@
-
-
-user@acceso.com.pe
-Maestros
-Conexiones
-Sistemas
-Sub Sistema
-Modulos
-Menus
-Usuarios
-Contenedores
-Paginas
-Unicron
-Conexiones
-Sistema
-Configuración
-Log Out
-sistemaLSBean
-Editar
-Editar
-		
-Detalle de Pagos | Página [9460]
-DatosTitulos y RegistrosBotonesScript de CargaScript de ProcesoScript de Dinamismo
 /*PARAMETROS*/
 var p_fe_asient = COALESCE(LS_CONPAR.co_conpar_1,'');
 var p_id_blopag = COALESCE(LS_CONPAR.co_conpar_2,'');
-​
+
 /*LOGICA*/
 var valpagJson = new ValpagJson();
-​
+
 var v_tx_query = 
-    "SELECT * FROM pagos.pblistar_blodet_entRendir(" + p_id_blopag + ")"  
+    "SELECT * FROM pagos.pbblopag_detalle_listar(" + p_id_blopag + ")"  
 ;
-​
+
 var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 10); 
-​
+
 for each (var rs in v_va_resqry.result){
     var rowx = new Row();
     rowx.add(new Reg({co_pagreg: 10, va_pagreg: null}));
@@ -62,15 +39,15 @@ for each (var rs in v_va_resqry.result){
     rowx.add(new Reg({co_pagreg: 230, va_pagreg: p_id_blopag}));
     valpagJson.addRow(rowx);
 }
-​
+
 /*DOM: Luego de cargar datos ejecutar:*/
 DO_POST_LOAD_DATA = function () {
         /*document.getElementById('PAG' + CO_PAGINA)
           .getElementsByTagName('TBODY')[0]
           .getElementsByTagName('TR')[0]
+          .style.display = 'none';*/
+SHOWINFO(true);
+    };
 
-Atrás
-
-Grabar y Aplicar
-Página 9460
-Datos actualizados y aplicacdos.
+/*RETORNO*/
+VALPAGJS = valpagJson;

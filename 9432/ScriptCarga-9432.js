@@ -15,7 +15,7 @@ var p_co_medpag = COALESCE(LS_CONPAR.co_conpar_10, 4);
 
 /*LOGICA*/
 var v_tx_query = 
-    "SELECT * FROM pagos.pblistar_entregas_rendir() " +
+    "SELECT * FROM pagos.pbentren_listar() " +
     "where co_estpag = 1 " +
     "and id_blopag is null " +
     "and co_bancos = " + p_id_bancos + " " +
