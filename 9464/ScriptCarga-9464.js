@@ -30,6 +30,8 @@ for each (var rs in v_va_resqry.result){
 DO_POST_LOAD_DATA = function () {
     SHOWINFO(true);
     AUTODYNAMIC(true);
+    window.parent.container(CO_PAGINA).css('width','605px');
+    document.getElementById('PAG'+CO_PAGINA).setAttribute('class',document.getElementById('PAG'+CO_PAGINA).getAttribute('class')+'2');
 };
 
 return valpagJson;
