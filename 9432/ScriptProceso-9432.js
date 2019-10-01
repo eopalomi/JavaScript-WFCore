@@ -81,6 +81,7 @@ if (CO_PAGBOT == 1){
 
     var pag_to_refresh = new List();
     pag_to_refresh.add(9432);
+    pag_to_refresh.add(9464);
 
     if (paramFormaPago == 2 || paramFormaPago == 3){ // TRANSFERENCIA | OTRAS TRASNFERENCIAS
         var v_no_ctaqry = DATA.SQL('wfacr', "select id_ctaban, no_ctaban, id_tipmon from pagos.tcctaban where id_ctaban = " + paramNroCtaCargo, 5).result[0];
