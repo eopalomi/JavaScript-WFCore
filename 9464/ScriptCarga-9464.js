@@ -16,8 +16,8 @@ var v_va_resqry  = DATA.SQL('wfacr', queryDatos, 1);
 /*LOGICA*/
 var valpagJson = new ValpagJson();
 
-v_va_resqry.result.forEach(function(rs) {
-    var rowx = new Row();
+v_va_resqry.result.forEach(function(rs){
+    var rowx = new Row();    
     rowx.addReg(new Reg({co_pagreg: 10, va_pagreg: rs.no_banabo}));
     rowx.addReg(new Reg({co_pagreg: 20, va_pagreg: rs.nu_cansol}));
     rowx.addReg(new Reg({co_pagreg: 30, va_pagreg: rs.nu_candol}));

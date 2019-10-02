@@ -14,7 +14,7 @@ var v_tx_query =
 /*PROCESO*/
 var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 10); 
 
-for each (var rs in v_va_resqry.result){
+v_va_resqry.result.forEach(function(rs){
 	if (p_id_blopag == rs.id_blopag){
     	var url_ca_totblo = '<a href="../wf?co_conten=8188&co_conpar_1=' + p_fe_asient + '&co_conpar_2=' + rs.id_blopag + '" target=_parent><font color="red"><b>[Ver]</font></b></a>';
 		var v_negrit = '<b>';
@@ -37,7 +37,7 @@ for each (var rs in v_va_resqry.result){
     rowx.add(new Reg({co_pagreg: 110, va_pagreg: url_ca_totblo}));
     rowx.add(new Reg({co_pagreg: 120, va_pagreg: null, ti_pagreg:6}));
     valpagJson.addRow(rowx);
-}
+});
 
 DO_POST_LOAD_DATA = function () {
     window.parent.container(CO_PAGINA).css('width','605px');

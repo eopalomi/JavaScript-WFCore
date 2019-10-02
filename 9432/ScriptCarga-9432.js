@@ -31,7 +31,7 @@ var v_tx_query =
 var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 30);
 var valpagJson = new ValpagJson();
 
-for each (var rs in v_va_resqry.result){
+v_va_resqry.result.forEach(function(rs){
 	switch(rs.id_blopag){
         case null:{
             var v_ti_estglo ="E";
@@ -75,7 +75,7 @@ for each (var rs in v_va_resqry.result){
     v_ti_estreg = v_ti_estreg == 'L'?true:false; // NO BORRAR
     rowx.cfg([{'ti_object': 'button','co_object':2, 'disabled':v_ti_estreg}]);
 	valpagJson.addRow(rowx);
-}
+});
 
 DO_POST_LOAD_DATA = function () {
     SHOWINFO(true);

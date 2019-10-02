@@ -10,7 +10,7 @@ var v_tx_query =
 ;
 var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 10); 
 
-for each (var rs in v_va_resqry.result){  
+v_va_resqry.result.forEach(function(rs){
     var rowx = new Row();
     rowx.addReg(new Reg({ co_pagreg: 10,va_pagreg: rs.co_entdet})); // Código
     rowx.addReg(new Reg({ co_pagreg: 20, va_pagreg: rs.nu_docide})); // Número de Documento de Indentidad
@@ -21,7 +21,8 @@ for each (var rs in v_va_resqry.result){
     rowx.addReg(new Reg({ co_pagreg: 60,va_pagreg: rs.im_abonar})); // Importe
 
     valpagJson.addRow(rowx);
-}
+});
+
 /*DOM: Luego de cargar datos ejecutar:*/
 DO_POST_LOAD_DATA = function () {
         /*document.getElementById('PAG' + CO_PAGINA)
