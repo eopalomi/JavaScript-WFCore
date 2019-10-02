@@ -15,7 +15,6 @@ var v_va_resqry  = DATA.SQL('wfacr', queryDatos, 1);
 
 /*LOGICA*/
 var valpagJson = new ValpagJson();
-MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_WARNING,'ALERTA',v_va_resqry.result, CO_CONTEN, true);
 
 v_va_resqry.result.forEach(function(rs) {
     var rowx = new Row();
@@ -25,16 +24,6 @@ v_va_resqry.result.forEach(function(rs) {
     rowx.addReg(new Reg({co_pagreg: 40, va_pagreg: rs.im_totabo}));
 	valpagJson.addRow(rowx);
 });
-
-
-/* for (var rs in v_va_resqry.result) {
-    var rowx = new Row();
-    rowx.addReg(new Reg({co_pagreg:   10, va_pagreg: v_va_resqry.result[rs] }));
-    rowx.addReg(new Reg({co_pagreg:   20, va_pagreg: "rs.nu_cansol"}));
-    rowx.addReg(new Reg({co_pagreg:   30, va_pagreg: "rs.nu_candol"}));
-    rowx.addReg(new Reg({co_pagreg:   40, va_pagreg: "rs.im_totabo"}));
-	valpagJson.addRow(rowx);
-} */
 
 DO_POST_LOAD_DATA = function () {
     SHOWINFO(true);
