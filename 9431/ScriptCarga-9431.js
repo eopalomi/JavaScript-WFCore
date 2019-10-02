@@ -1,21 +1,21 @@
 // VARIABLES
 var fecha = new Date();
 var diaUno = '1/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
-var hoy = fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
+var diaHoy = fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
 
 /*PARAMETROS*/
 var p_co_bancos = COALESCE(LS_CONPAR.co_conpar_1,'');
 var p_co_moneda = COALESCE(LS_CONPAR.co_conpar_2,'');
 var p_co_filtro = COALESCE(LS_CONPAR.co_conpar_3,'');
 var p_fe_inicio = COALESCE(LS_CONPAR.co_conpar_4,diaUno);
-var p_fe_finale = COALESCE(LS_CONPAR.co_conpar_5,hoy);
+var p_fe_finale = COALESCE(LS_CONPAR.co_conpar_5,diaHoy);
 var p_da_busque = COALESCE(LS_CONPAR.co_conpar_6,'');
 var p_id_forpag = COALESCE(LS_CONPAR.co_conpar_7,'');
 var p_co_banacc = COALESCE(LS_CONPAR.co_conpar_8,'');
 var p_co_ctaacc = COALESCE(LS_CONPAR.co_conpar_9,'');
 var p_id_medpag = COALESCE(LS_CONPAR.co_conpar_10,4);
 
-var data10  = DATA.SQL('wfacr', 'select id_bancos as co_compag, no_bancos as no_compag from pagos.tcbancos where il_estado AND id_bancos IN (SELECT co_bancos FROM pagos.pblistar_pagos(3) where co_estpag = 1) order by no_bancos', 1).result; // BANCOS
+var data10  = DATA.SQL('wfacr', 'select id_bancos as co_compag, no_bancos as no_compag from pagos.tcbancos where il_estado AND id_bancos IN (SELECT co_bancos FROM pagos.pbentren_listar() where co_estpag = 1 and id_blopag is null) order by no_bancos', 1).result; // BANCOS
 var data20  = DATA.SQL('wfacr', 'select id_tipmon as co_compag, no_tipmon as no_compag from pagos.tctipmon order by no_tipmon desc', 1).result; // MONEDA
 var data30  = DATA.SQL('wfacr', 'select co_filtros as co_compag, no_filtros as no_compag from pagos.tcfiltros where co_tippag = 3 and co_filtros <> 2 order by no_filtros', 1).result; 
 var data70  = DATA.SQL('wfacr', 'select id_forpag as co_compag, no_forpag as no_compag from pagos.tcforpag order by no_forpag desc', 1).result; // FORMA DE PAGO
