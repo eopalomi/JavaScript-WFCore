@@ -8,7 +8,7 @@ var valpagJson = new ValpagJson();
 
 //PROCESO
 if (p_id_tippag != null) {
-    var v_tx_query = "SELECT * FROM pagos.pbblopag_listar(" + p_id_tippag + ") where id_estpag = 1";
+    var v_tx_query = `SELECT * FROM pagos.pbblopag_listar(${p_id_tippag}) where id_estpag = 1`;
     
     var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 10);
 

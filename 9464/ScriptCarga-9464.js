@@ -1,15 +1,16 @@
 //VARIABLES
-var queryDatos =    
-    "SELECT " +
-        "co_bancos, " +
-        "no_banabo, " +
-        "sum(CASE co_moneda WHEN 1 THEN 1 ELSE 0 END) nu_cansol, " +
-        "sum(CASE co_moneda WHEN 2 THEN 1 ELSE 0 END) nu_candol, " +
-        "sum(im_totabo) im_totabo " +
-    "FROM pagos.pbentren_listar() " +
-    "WHERE co_estpag = 1 " +
-    "AND id_blopag IS NULL " +
-    "GROUP BY co_bancos, no_banabo ";
+var queryDatos = `
+    SELECT 
+        co_bancos, 
+        no_banabo, 
+        sum(CASE co_moneda WHEN 1 THEN 1 ELSE 0 END) nu_cansol, 
+        sum(CASE co_moneda WHEN 2 THEN 1 ELSE 0 END) nu_candol, 
+        sum(im_totabo) im_totabo 
+    FROM pagos.pbentren_listar() 
+    WHERE co_estpag = 1 
+    AND id_blopag IS NULL 
+    GROUP BY co_bancos, no_banabo
+`;
 
 var v_va_resqry  = DATA.SQL('wfacr', queryDatos, 1);
 

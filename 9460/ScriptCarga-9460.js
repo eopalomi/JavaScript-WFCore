@@ -11,7 +11,7 @@ if (p_id_tippag != 3){ // ENTREGA A RENDIR - SI NO ES
 var valpagJson = new ValpagJson();
 
 if (p_id_blopag != null) {
-    var v_tx_query = "SELECT * FROM pagos.pbblopag_detalle_listar(" + p_id_blopag + ")";
+    var v_tx_query = `SELECT * FROM pagos.pbblopag_detalle_listar(${p_id_blopag})`;
     var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 10); 
 
     v_va_resqry.result.forEach(function(rs){

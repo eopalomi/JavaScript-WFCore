@@ -8,6 +8,7 @@ if (CO_PAGBOT == 1) {
 } else {
 	var v_co_estpag = 2;
 };
+
 //LOGICA
 for each(var row in LS_ALLREG){
     if (row.co_regist_210 == true) {// ¿Esta Seleccionado?
