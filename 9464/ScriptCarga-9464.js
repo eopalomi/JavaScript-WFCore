@@ -17,12 +17,16 @@ var v_va_resqry  = DATA.SQL('wfacr', queryDatos, 1);
 /*LOGICA*/
 var valpagJson = new ValpagJson();
 
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+};
+
 v_va_resqry.result.forEach(function(rs){
     var rowx = new Row();    
     rowx.addReg(new Reg({co_pagreg: 10, va_pagreg: rs.no_banabo}));
     rowx.addReg(new Reg({co_pagreg: 20, va_pagreg: rs.nu_cansol}));
     rowx.addReg(new Reg({co_pagreg: 30, va_pagreg: rs.nu_candol}));
-    rowx.addReg(new Reg({co_pagreg: 40, va_pagreg: rs.im_totabo}));
+    rowx.addReg(new Reg({co_pagreg: 40, va_pagreg: formatNumber(rs.im_totabo)}));
 	valpagJson.addRow(rowx);
 });
 

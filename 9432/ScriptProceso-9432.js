@@ -80,7 +80,7 @@ if (CO_PAGBOT == 1){
     pag_to_refresh.add(9432);
     pag_to_refresh.add(9464);
 
-    if (paramFormaPago == 2 || paramFormaPago == 3){ // TRANSFERENCIA | OTRAS TRASNFERENCIAS
+    if (paramFormaPago == 2 || paramFormaPago == 3 || paramFormaPago == 5){ // TRANSFERENCIA | OTRAS TRASNFERENCIAS / CHEQUE
         var v_no_ctaqry = DATA.SQL('wfacr', "select id_ctaban, no_ctaban, id_tipmon from pagos.tcctaban where id_ctaban = " + paramNroCtaCargo, 5).result[0];
         var v_no_ctaban = v_no_ctaqry.no_ctaban;
         v_no_ctaban = v_no_ctaban.replace(/-/g, "");

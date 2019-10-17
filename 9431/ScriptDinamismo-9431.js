@@ -54,16 +54,16 @@ switch(CO_PAGREG) {
         if (VA_PAGREG == '4' || VA_PAGREG == '5'){ // FEC. MOVIMIENTO | FEC. REGISTRO
             row.add(new Reg({co_pagreg : 40, ti_pagreg:7, va_pagreg : p_fe_inicio, ti_estreg:'E'})); // FECHA INICIAL
             row.add(new Reg({co_pagreg : 50, ti_pagreg:7, va_pagreg : p_fe_finale, ti_estreg:'E'})); // FECHA FINAL
-            row.add(new Reg({co_pagreg : 60, ti_pagreg:1, null      : p_fe_finale, ti_estreg:'O'})); // DATO
+            row.add(new Reg({co_pagreg : 60, ti_pagreg:1, va_pagreg : p_da_busque, ti_estreg:'O'})); // DATO
         } else if ( VA_PAGREG == '6' ) { // INGRESAR DATO
             row.add(new Reg({co_pagreg : 40, ti_pagreg:7, va_pagreg : p_fe_inicio, ti_estreg:'O'})); // FECHA INICIAL
             row.add(new Reg({co_pagreg : 50, ti_pagreg:7, va_pagreg : p_fe_finale, ti_estreg:'O'})); // FECHA FINAL
-            row.add(new Reg({co_pagreg : 60, ti_pagreg:1, null      : p_fe_finale, ti_estreg:'E'})); // DATO
+            row.add(new Reg({co_pagreg : 60, ti_pagreg:1, va_pagreg : p_da_busque, ti_estreg:'E'})); // DATO
         }
         else {
-            row.add(new Reg({co_pagreg : 40, ti_pagreg:7, va_pagreg : p_fe_inicio, ti_estreg:'O'})); // FECHA INICIAL
-            row.add(new Reg({co_pagreg : 50, ti_pagreg:7, va_pagreg : p_fe_finale, ti_estreg:'O'})); // FECHA FINAL
-            row.add(new Reg({co_pagreg : 60, ti_pagreg:1, null      : p_fe_finale, ti_estreg:'O'})); // DATO
+            row.add(new Reg({co_pagreg : 40, ti_pagreg:7, va_pagreg : null, ti_estreg:'O'})); // FECHA INICIAL
+            row.add(new Reg({co_pagreg : 50, ti_pagreg:7, va_pagreg : null, ti_estreg:'O'})); // FECHA FINAL
+            row.add(new Reg({co_pagreg : 60, ti_pagreg:1, va_pagreg : null, ti_estreg:'O'})); // DATO
         }
         break;
     }
@@ -88,10 +88,11 @@ switch(CO_PAGREG) {
 
         var valreg10 = cacheCalc.get(ID_FRAWOR+'REG10'); // BANCO | OBTENER DE CACHE
         var valreg20 = cacheCalc.get(ID_FRAWOR+'REG20'); // MONEDA | OBTENER DE CACHE
+        
         //Sobreescribir parametro--COMENTADO!
         HTTP.UPDATE_CONPAR(CO_CONTEN,ID_FRAWOR, 'co_conpar_7', VA_PAGREG);
         
-        if ((VA_PAGREG == 3 || VA_PAGREG == 2) & valreg10 != null) { // TRANSFERENCIA | OTRAS TRANSFERENCIAS
+        if ((VA_PAGREG == 3 || VA_PAGREG == 2 || VA_PAGREG == 5) & valreg10 != null) { // TRANSFERENCIA | OTRAS TRANSFERENCIAS | CUENTA BANCARIA
             var data90 = DATA.SQL('wfacr',`select id_ctaban as co_compag, va_ctaban || '-' || no_ctaban as no_compag from pagos.tcctaban where id_bancos = ${valreg10} and id_tipmon = ${valreg20} order by va_ctaban`, 1).result;
             row.add(new Reg({co_pagreg : 90, va_pagreg: p_id_ctacar, ti_estreg:'E', ob_dindat: data90})); // NUMERO DE CUENTA BANCARIA
         } else {
