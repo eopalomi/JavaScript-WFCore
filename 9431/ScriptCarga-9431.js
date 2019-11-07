@@ -19,12 +19,12 @@ var query10 = `
     select id_bancos as co_compag, no_bancos as no_compag 
     from pagos.tcbancos 
     where il_estado 
-    AND id_bancos IN (
+    and id_bancos in (
         SELECT co_bancos 
         FROM pagos.pbentren_listar() 
         where co_estpag = 1 
         and id_blopag is null
-    ) 
+    )
     order by no_bancos
 `;
 
