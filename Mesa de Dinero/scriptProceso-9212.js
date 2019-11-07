@@ -22,25 +22,25 @@ var v_va_person = DATA.SQL('wfacr', v_ti_person, 10).result[0];  // REGISTRAR EM
 
 if (CO_PAGBOT  == 1) {
     if (r_co_maeban == null) {
-        MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_INFO, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Seleccione el banco.', co_conten:CO_CONTEN, ca_timeout: 5});
+        MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_WARNING, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Seleccione el banco.', co_conten:CO_CONTEN, ca_timeout: 5});
         return OK('NONE', null, null, null);
     } else if (r_co_moneda == null){
-        MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_INFO, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Seleccione la moneda.', co_conten:CO_CONTEN, ca_timeout: 5});
+        MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_WARNING, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Seleccione la moneda.', co_conten:CO_CONTEN, ca_timeout: 5});
         return OK('NONE', null, null, null);
     } else if (r_nu_ctaban == null || r_nu_ctaban.trim() == ''){
-        MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_INFO, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Ingrese cuenta bancaria.', co_conten:CO_CONTEN, ca_timeout: 5});
+        MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_WARNING, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Ingrese cuenta bancaria.', co_conten:CO_CONTEN, ca_timeout: 5});
         return OK('NONE', null, null, null);
     } else {
 		for each (var nu in v_nu_ctaban.result){
             if (nu.nu_ctaban != null || nu.nu_ctaban != '') {
-                MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_INFO, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'El número de cuenta bancaria ' + r_nu_ctaban + ' ya se encuentra registrado.', co_conten:CO_CONTEN, ca_timeout: 5});
+                MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_WARNING, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'El número de cuenta bancaria ' + r_nu_ctaban + ' ya se encuentra registrado.', co_conten:CO_CONTEN, ca_timeout: 5});
                 return OK('NONE', null, null, null);
             }
         }
         
         for each (var it in v_cu_intban.result){
             if (it.cu_intban != null || it.cu_intban != '') {
-                MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_INFO, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'El número de cuenta interbancaria ' + r_cu_intban + ' ya se encuentra registrado.', co_conten:CO_CONTEN, ca_timeout: 5});
+                MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_WARNING, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'El número de cuenta interbancaria ' + r_cu_intban + ' ya se encuentra registrado.', co_conten:CO_CONTEN, ca_timeout: 5});
                 return OK('NONE', null, null, null);
             }
         }
@@ -73,7 +73,7 @@ if (CO_PAGBOT  == 1) {
             return OK('REFRESH', null, null, pag_to_refresh);
         }else{
             // MSG.PUSH_TO_USER(USUARI.co_usuari, MSG_TYPE_ERROR,'ALERTA','Ha ocurrido un problema al realizar el registro.');
-            MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_ERROR, no_title:'<center><b>CORRECTO</b></center>', no_body:'Ha ocurrido un problema al realizar el registro. ERROR [' + v_va_resqry.no_estado + ']', co_conten:CO_CONTEN, ca_timeout: 5});
+            MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_ERROR, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Ha ocurrido un problema al realizar el registro. ERROR [' + v_va_resqry.no_estado + ']', co_conten:CO_CONTEN, ca_timeout: 5});
             return OK('NONE', null, null, null);
         }
     }
@@ -82,7 +82,7 @@ if (CO_PAGBOT  == 1) {
     v_data1 = data1.result[0];
     
     if (v_data1.cantidad == 0){
-        MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_INFO, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Ingrese la cuenta bancaria del cliente.', co_conten:CO_CONTEN, ca_timeout: 5});
+        MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_WARNING, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Ingrese la cuenta bancaria del cliente.', co_conten:CO_CONTEN, ca_timeout: 5});
         return OK('NONE', null, null, null);
     } else {
         var xparams = new List();

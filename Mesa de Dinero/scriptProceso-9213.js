@@ -24,7 +24,7 @@ var v_va_resqry = DATA.SQL('wfacr', v_tx_query, 10);  // ELIMINAR CTA BANCARIA
 v_va_resqry = v_va_resqry.result[0];
 
 if(v_va_resqry.co_estado == '00'){
-    MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_SUCCESS, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'El registro se eliminó correctamente.', co_conten:CO_CONTEN, ca_timeout: 5});
+    MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_SUCCESS, no_title:'<center><b>CORRECTO</b></center>', no_body:'El registro se eliminó correctamente.', co_conten:CO_CONTEN, ca_timeout: 5});
 }else{
     MSG.PUSH_TO_USER({co_usuari: USUARI.co_usuari, ti_messag: MSG_TYPE_ERROR, no_title:'<center><b>MENSAJE DE ALERTA</b></center>', no_body:'Ha ocurrido un problema al realizar el registro.', co_conten:CO_CONTEN, ca_timeout: 5});
 };
